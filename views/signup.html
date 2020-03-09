@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>iQuadra</title>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Font-->
+	<link rel="stylesheet" type="text/css" href="css/roboto-font.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
+	<!-- Main Style Css -->
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body class="form-v5">
+	<div class="page-content">
+		<div class="form-v5-content">
+			<form class="form-detail" action="/controllers/register-controller" method="post">
+				<h2>New User Registration</h2>
+				<div class="form-row">
+					<label for="full-name">First Name</label>
+					<input type="text" name="firstname" id="full-name" class="input-text" placeholder="Enter your First Name" required>
+					<i class="fas fa-user"></i>
+				</div>
+				<div class="form-row">
+					<label for="full-name">Last Name</label>
+					<input type="text" name="lastname" id="full-name" class="input-text" placeholder="Enter your Last Name" required>
+					<i class="fas fa-user"></i>
+				</div>
+				<div class="form-row">
+					<label for="your-email">Your Email</label>
+					<input type="text" name="email" id="your-email" class="input-text" placeholder="ex: abc@iquad.com" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+					<i class="fas fa-envelope"></i>
+				</div>
+				<div class="form-row">
+					<label for="password">Password</label>
+					<input type="password" name="password" id="password" class="input-text" placeholder="Your Password" required>
+					<i class="fas fa-lock"></i>
+				</div>
+				<div class="form-row">
+					<label for="password"> Confirm Password</label>
+					<input type="password" name="repassword" id="confirm_password" class="input-text" placeholder="Re-enter Your Password" required>
+					<i class="fas fa-lock"></i>
+				</div>
+				<div class="form-row-last">
+					<input type="submit" name="register" class="register" value="Sign-up">
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+
+	<style>
+	   #form label{float:left; width:100px;}
+	   #error_msg{color:red;}
+	</style>
+   
+	<script>
+	   $(document).ready(function(){
+		   var $submitBtn = $("#form input[type='submit']");
+		   var $passwordBox = $("#password");
+		   var $confirmBox = $("#confirm_password");
+		   var $errorMsg =  $('<span id="error_msg">Passwords do not match.</span>');
+   
+		   // This is incase the user hits refresh - some browsers will maintain the disabled state of the button.
+		   $submitBtn.removeAttr("disabled");
+   
+		   function checkMatchingPasswords(){
+			   if($confirmBox.val() != "" && $passwordBox.val != ""){
+				   if( $confirmBox.val() != $passwordBox.val() ){
+					   $submitBtn.attr("disabled", "disabled");
+					   $errorMsg.insertAfter($confirmBox);
+				   }
+			   }
+		   }
+   
+		   function resetPasswordError(){
+			   $submitBtn.removeAttr("disabled");
+			   var $errorCont = $("#error_msg");
+			   if($errorCont.length > 0){
+				   $errorCont.remove();
+			   }  
+		   }
+   
+   
+		   $("#confirm_password, #password")
+				.on("keydown", function(e){
+				   /* only check when the tab or enter keys are pressed
+					* to prevent the method from being called needlessly  */
+				   if(e.keyCode == 13 || e.keyCode == 9) {
+					   checkMatchingPasswords();
+				   }
+				})
+				.on("blur", function(){                    
+				   // also check when the element looses focus (clicks somewhere else)
+				   checkMatchingPasswords();
+			   })
+			   .on("focus", function(){
+				   // reset the error message when they go to make a change
+				   resetPasswordError();
+			   })
+   
+	   });
+	 </script>
+
+</body>
+</html>
